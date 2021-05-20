@@ -43,7 +43,27 @@ class UserControllerTest {
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.id", Is.is(requestId)));
 
+        verify(requestService, times(1)).generateNewRequestId();
         verify(userService, times(1)).addUser(any(User.class));
+
+    }
+
+    @Test
+    public void genericErrorDuringPostShouldReturn500WithMessage() throws Exception {
+
+        String requestId = "1111";
+        String message = "some error";
+        when(requestService.getCurrentRequestId()).thenReturn(requestId);
+        when(userService.addUser(any(User.class))).thenThrow(new RuntimeException(message));
+
+        mvc.perform(post("/user").content("{}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.id", Is.is(requestId)))
+                .andExpect(jsonPath("$.error", Is.is(message)));
+
+        verify(requestService, times(1)).generateNewRequestId();
+
 
     }
 
