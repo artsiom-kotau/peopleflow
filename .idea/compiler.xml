@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="common" />
         <module name="api" />
+        <module name="employee-service" />
       </profile>
     </annotationProcessing>
   </component>
