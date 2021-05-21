@@ -1,9 +1,9 @@
 package com.peopleflow.api;
 
-import com.peopleflow.model.request.User;
-import com.peopleflow.model.response.UserResponse;
+import com.peopleflow.model.request.Employee;
+import com.peopleflow.model.response.EmployeeResponse;
+import com.peopleflow.service.EmployeeService;
 import com.peopleflow.service.RequestService;
-import com.peopleflow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,18 +11,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserController {
+public class EmployeeController {
 
     @Autowired
     private RequestService requestService;
 
     @Autowired
-    private UserService userService;
+    private EmployeeService employeeService;
 
-    @PostMapping("/user")
+    @PostMapping("/employee")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public UserResponse addUser(User user) {
-        userService.addUser(user);
-        return new UserResponse(requestService.getCurrentRequestId());
+    public EmployeeResponse addEmployee(Employee employee) {
+        Employee addedEmployee = employeeService.addEmployee(employee);
+        return new EmployeeResponse(addedEmployee.getId());
     }
+
 }

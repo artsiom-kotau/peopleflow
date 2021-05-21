@@ -1,8 +1,8 @@
 package com.peopleflow.api;
 
-import com.peopleflow.model.request.User;
+import com.peopleflow.model.request.Employee;
 import com.peopleflow.service.RequestService;
-import com.peopleflow.service.UserService;
+import com.peopleflow.service.EmployeeService;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,50 +20,42 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(UserController.class)
-class UserControllerTest {
+@WebMvcTest(EmployeeController.class)
+class EmployeeControllerTest extends ApiTest {
 
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    private UserService userService;
-
-    @MockBean
-    private RequestService requestService;
+    private EmployeeService employeeService;
 
     @Test
     public void postNewUserShouldReturn201() throws Exception {
 
-        String requestId = "1111";
-        when(requestService.getCurrentRequestId()).thenReturn(requestId);
+        String newId = "1111";
+        Employee addedEmployee = new Employee();
+        addedEmployee.setId(newId);
+        when(employeeService.addEmployee(any(Employee.class))).thenReturn(addedEmployee);
 
-        mvc.perform(post("/user").content("{}")
+        mvc.perform(post("/employee").content("{}")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
-                .andExpect(jsonPath("$.id", Is.is(requestId)));
+                .andExpect(jsonPath("$.id", Is.is(newId)));
 
-        verify(requestService, times(1)).generateNewRequestId();
-        verify(userService, times(1)).addUser(any(User.class));
+        verify(employeeService, times(1)).addEmployee(any(Employee.class));
 
     }
 
     @Test
     public void genericErrorDuringPostShouldReturn500WithMessage() throws Exception {
 
-        String requestId = "1111";
         String message = "some error";
-        when(requestService.getCurrentRequestId()).thenReturn(requestId);
-        when(userService.addUser(any(User.class))).thenThrow(new RuntimeException(message));
+        when(employeeService.addEmployee(any(Employee.class))).thenThrow(new RuntimeException(message));
 
-        mvc.perform(post("/user").content("{}")
+        mvc.perform(post("/employee").content("{}")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
-                .andExpect(jsonPath("$.id", Is.is(requestId)))
                 .andExpect(jsonPath("$.error", Is.is(message)));
-
-        verify(requestService, times(1)).generateNewRequestId();
-
 
     }
 

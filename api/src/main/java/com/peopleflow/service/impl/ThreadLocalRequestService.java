@@ -22,6 +22,17 @@ public class ThreadLocalRequestService implements RequestService {
 
     @Override
     public String getCurrentRequestId() {
+        String id = idStorage.get();
+        if (id == null) {
+            throw new IllegalStateException("Id wasn't generated");
+        }
         return idStorage.get();
+    }
+
+    @Override
+    public String unsetRequestId() {
+        String id = idStorage.get();
+        idStorage.remove();
+        return id;
     }
 }

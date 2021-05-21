@@ -5,4 +5,6 @@ public interface RequestService {
     String generateNewRequestId();
 
     String getCurrentRequestId();
+
+    String unsetRequestId();
 }

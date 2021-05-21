@@ -3,7 +3,9 @@ package com.peopleflow.model.request;
 import lombok.Data;
 
 @Data
-public class User {
+public class Employee {
+
+    String id;
 
     String name;
 
