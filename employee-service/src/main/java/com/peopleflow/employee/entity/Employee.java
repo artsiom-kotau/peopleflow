@@ -1,5 +1,6 @@
-package com.peopleflow.employee.data.entity;
+package com.peopleflow.employee.entity;
 
+import com.peopleflow.lib.EmployeeState;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -28,5 +29,5 @@ public class Employee {
     String jobDescription;
 
     @Column(name = "state")
-    String state;
+    EmployeeState state;
 }
