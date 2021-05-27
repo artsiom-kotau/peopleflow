@@ -1,7 +1,7 @@
 package com.peopleflow.api;
 
+import com.peopleflow.lib.EmployeeState;
 import com.peopleflow.model.request.Employee;
-import com.peopleflow.service.RequestService;
 import com.peopleflow.service.EmployeeService;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
@@ -57,6 +57,37 @@ class EmployeeControllerTest extends ApiTest {
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.error", Is.is(message)));
 
+    }
+
+
+    @Test
+    public void updateEmployeeState_GenericError() throws Exception {
+
+        String message = "some error";
+        String employeeId = "1111";
+        EmployeeState state = EmployeeState.APPROVED;
+        when(employeeService.updateState(eq(employeeId), eq(state))).thenThrow(new RuntimeException(message));
+
+        mvc.perform(post("/employee/{id}/updateStatus", employeeId)
+                .content("{\"state\" :  \"APPROVED\"}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.error", Is.is(message)));
+    }
+
+    @Test
+    public void activateEmployee_Success() throws Exception {
+
+        String employeeId = "1111";
+        EmployeeState state = EmployeeState.APPROVED;
+        when(employeeService.updateState(eq(employeeId), eq(state))).thenReturn(state);
+
+        mvc.perform(post("/employee/{id}/updateStatus", employeeId)
+                .content("{\"state\" :  \"APPROVED\"}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.id", Is.is(employeeId)))
+                .andExpect(jsonPath("$.state", Is.is(state.toString())));
     }
 
 }

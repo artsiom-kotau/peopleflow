@@ -9,11 +9,5 @@ public interface EmployeeService {
 
     Employee addEmployee(Employee employee);
 
-    EmployeeState check(String userId);
-
-    EmployeeState approve(String userId);
-
-    EmployeeState activate(String userId);
-
-    EmployeeState status(String id);
+    EmployeeState updateState(String id, EmployeeState newState);
 }

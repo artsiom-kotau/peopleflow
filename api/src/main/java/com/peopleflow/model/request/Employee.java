@@ -1,5 +1,6 @@
 package com.peopleflow.model.request;
 
+import com.peopleflow.lib.EmployeeState;
 import lombok.Data;
 
 @Data
@@ -14,4 +15,6 @@ public class Employee {
     String position;
 
     String jobDescription;
+
+    EmployeeState state;
 }
