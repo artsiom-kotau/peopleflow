@@ -7,4 +7,6 @@ public interface EmployeeService {
 
     EmployeeDto create(EmployeeDto employee);
 
+    EmployeeDto updateStatus(EmployeeDto dto);
+
 }

@@ -9,6 +9,8 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Slf4j
 @Setter
 public class EmployeeServiceImpl implements EmployeeService {
@@ -29,6 +31,25 @@ public class EmployeeServiceImpl implements EmployeeService {
             log.error(exc.getMessage(), exc);
             throw new EmployeeServiceException(exc);
         }
+    }
 
+    @Override
+    @Transactional
+    public EmployeeDto updateStatus(EmployeeDto dto) {
+        try {
+            Optional<Employee> employee = employeeRepository.findById(dto.getId());
+            if (employee.isEmpty()) {
+                throw new EmployeeServiceException(String.format("There is no employee with id '%s'", dto.getId()));
+            }
+            Employee entity = employee.get();
+            entity.setState(dto.getState());
+            entity = employeeRepository.save(entity);
+            return employeeMapper.toDto(entity);
+        } catch (EmployeeServiceException exc)  {
+            throw exc;
+        } catch (RuntimeException exc) {
+            log.error(exc.getMessage(), exc);
+            throw new EmployeeServiceException(exc);
+        }
     }
 }
