@@ -1,6 +1,6 @@
 package com.peopleflow.config;
 
-import com.peopleflow.model.request.Employee;
+import com.peopleflow.lib.EmployeeDto;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -26,6 +26,7 @@ public class KafkaConfiguration {
     @Value(value = "${kafka.employee.topic}")
     private String employeeTopic;
 
+
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
@@ -39,7 +40,7 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    public ProducerFactory<String, Employee> employeeProducerFactory() {
+    public ProducerFactory<String, EmployeeDto> employeeProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -54,7 +55,7 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String, Employee> kafkaEmployeeTemplate() {
+    public KafkaTemplate<String, EmployeeDto> kafkaEmployeeTemplate() {
         return new KafkaTemplate<>(employeeProducerFactory());
     }
 

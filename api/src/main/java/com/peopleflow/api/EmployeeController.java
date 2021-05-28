@@ -1,7 +1,7 @@
 package com.peopleflow.api;
 
+import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.lib.EmployeeState;
-import com.peopleflow.model.request.Employee;
 import com.peopleflow.model.request.EmployeeStateRequest;
 import com.peopleflow.model.response.EmployeeResponse;
 import com.peopleflow.model.response.EmployeeStateResponse;
@@ -18,8 +18,8 @@ public class EmployeeController {
 
     @PostMapping("/employee")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public EmployeeResponse addEmployee(Employee employee) {
-        Employee addedEmployee = employeeService.addEmployee(employee);
+    public EmployeeResponse addEmployee(EmployeeDto employee) {
+        EmployeeDto addedEmployee = employeeService.addEmployee(employee);
         return new EmployeeResponse(addedEmployee.getId());
     }
 

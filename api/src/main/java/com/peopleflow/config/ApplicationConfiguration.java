@@ -1,6 +1,6 @@
 package com.peopleflow.config;
 
-import com.peopleflow.model.request.Employee;
+import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.service.EmployeeService;
 import com.peopleflow.service.RequestService;
 import com.peopleflow.service.impl.IdGenerator;
@@ -30,7 +30,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public EmployeeService employeeService(KafkaTemplate<String, Employee> employeeKafkaTemplate, RequestService requestService) {
+    public EmployeeService employeeService(KafkaTemplate<String, EmployeeDto> employeeKafkaTemplate, RequestService requestService) {
         return new KafkaEmployeeService(employeeKafkaTemplate, requestService, employeeTopic);
     }
 }

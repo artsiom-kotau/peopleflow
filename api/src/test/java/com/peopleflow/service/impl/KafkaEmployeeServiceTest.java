@@ -1,7 +1,7 @@
 package com.peopleflow.service.impl;
 
 import com.peopleflow.exception.AddEmployeeException;
-import com.peopleflow.model.request.Employee;
+import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.service.RequestService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.*;
@@ -21,7 +22,7 @@ class KafkaEmployeeServiceTest {
     private static final String KAFKA_TOPIC = "topic";
 
     @MockBean
-    private KafkaTemplate<String, Employee> kafkaTemplate;
+    private KafkaTemplate<String, EmployeeDto> kafkaTemplate;
 
     @MockBean
     private RequestService requestService;
@@ -36,10 +37,10 @@ class KafkaEmployeeServiceTest {
     @Test
     public void addEmployeeSuccessfully() {
         String newId = "11111";
-        Employee employee = new Employee();
+        EmployeeDto employee = new EmployeeDto();
 
         when(requestService.getCurrentRequestId()).thenReturn(newId);
-        Employee addedEmployee = kafkaEmployeeService.addEmployee(employee);
+        EmployeeDto addedEmployee = kafkaEmployeeService.addEmployee(employee);
 
         assertEquals(newId, addedEmployee.getId());
         verify(kafkaTemplate, times(1)).send(eq(KAFKA_TOPIC), same(employee));
@@ -48,7 +49,7 @@ class KafkaEmployeeServiceTest {
     @Test
     public void addEmployeeRuntimeError() {
         String newId = "11111";
-        Employee employee = new Employee();
+        EmployeeDto employee = new EmployeeDto();
 
         when(requestService.getCurrentRequestId()).thenReturn(newId);
 

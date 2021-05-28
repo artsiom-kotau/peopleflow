@@ -38,7 +38,7 @@
                         <configuration>
                             <classifier>spring-boot</classifier>
                             <mainClass>
-                                com.peopleflow.PeopleFlowApplication
+                                com.peopleflow.PeopleFlowApiApplication
                             </mainClass>
                         </configuration>
                     </execution>

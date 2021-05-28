@@ -1,12 +1,11 @@
 package com.peopleflow.service.impl;
 
 import com.peopleflow.exception.AddEmployeeException;
+import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.lib.EmployeeState;
-import com.peopleflow.model.request.Employee;
 import com.peopleflow.service.EmployeeService;
 import com.peopleflow.service.RequestService;
 import lombok.AllArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 
@@ -14,7 +13,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 @AllArgsConstructor
 public class KafkaEmployeeService implements EmployeeService {
 
-    private KafkaTemplate<String, Employee> kafkaTemplate;
+    private KafkaTemplate<String, EmployeeDto> kafkaTemplate;
 
     private RequestService requestService;
 
@@ -22,7 +21,7 @@ public class KafkaEmployeeService implements EmployeeService {
 
 
     @Override
-    public Employee addEmployee(Employee employee) {
+    public EmployeeDto addEmployee(EmployeeDto employee) {
         employee.setId(requestService.getCurrentRequestId());
         sendEmployeeEvent(employee);
         return employee;
@@ -30,19 +29,19 @@ public class KafkaEmployeeService implements EmployeeService {
 
     @Override
     public EmployeeState updateState(String userId, EmployeeState state) {
-        Employee employee = createEmployeeEvent(userId, state);
+        EmployeeDto employee = createEmployeeEvent(userId, state);
         sendEmployeeEvent(employee);
         return state;
     }
 
-    private Employee createEmployeeEvent(String userId, EmployeeState state) {
-        Employee employee = new Employee();
+    private EmployeeDto createEmployeeEvent(String userId, EmployeeState state) {
+        EmployeeDto employee = new EmployeeDto();
         employee.setId(userId);
         employee.setState(state);
         return employee;
     }
 
-    private void sendEmployeeEvent(Employee employee) {
+    private void sendEmployeeEvent(EmployeeDto employee) {
         try {
             kafkaTemplate.send(employeeTopic, employee);
         } catch (Exception exc) {

@@ -1,6 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-employee-table
+      author: akotau
       changes:
         - createTable:
             tableName: employee
@@ -30,6 +31,7 @@ databaseChangeLog:
                   type: varchar(50)
   - changeSet:
       id: create-employee-error-table
+      author: akotau
       changes:
         - createTable:
             tableName: employee_error
