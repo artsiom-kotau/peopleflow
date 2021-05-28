@@ -1,17 +1,22 @@
 package com.peopleflow.config;
 
-import com.peopleflow.lib.EmployeeState;
-import com.peopleflow.model.request.Employee;
-import com.peopleflow.service.RequestService;
+import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.service.EmployeeService;
+import com.peopleflow.service.RequestService;
 import com.peopleflow.service.impl.IdGenerator;
+import com.peopleflow.service.impl.KafkaEmployeeService;
 import com.peopleflow.service.impl.ThreadLocalRequestService;
 import com.peopleflow.service.impl.UUIDGenerator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.KafkaTemplate;
 
 @Configuration
 public class ApplicationConfiguration {
+
+    @Value(value = "${kafka.employee.topic}")
+    private String employeeTopic;
 
 
     @Bean
@@ -25,32 +30,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public EmployeeService employeeService() {
-        return new EmployeeService() {
-            @Override
-            public Employee addEmployee(Employee employee) {
-                return null;
-            }
-
-            @Override
-            public EmployeeState check(String userId) {
-                return null;
-            }
-
-            @Override
-            public EmployeeState approve(String userId) {
-                return null;
-            }
-
-            @Override
-            public EmployeeState activate(String userId) {
-                return null;
-            }
-
-            @Override
-            public EmployeeState status(String id) {
-                return null;
-            }
-        };
+    public EmployeeService employeeService(KafkaTemplate<String, EmployeeDto> employeeKafkaTemplate, RequestService requestService) {
+        return new KafkaEmployeeService(employeeKafkaTemplate, requestService, employeeTopic);
     }
 }

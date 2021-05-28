@@ -1,7 +1,7 @@
 package com.peopleflow.api;
 
-import com.peopleflow.model.request.Employee;
-import com.peopleflow.service.RequestService;
+import com.peopleflow.lib.EmployeeDto;
+import com.peopleflow.lib.EmployeeState;
 import com.peopleflow.service.EmployeeService;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
@@ -33,16 +33,16 @@ class EmployeeControllerTest extends ApiTest {
     public void postNewUserShouldReturn201() throws Exception {
 
         String newId = "1111";
-        Employee addedEmployee = new Employee();
+        EmployeeDto addedEmployee = new EmployeeDto();
         addedEmployee.setId(newId);
-        when(employeeService.addEmployee(any(Employee.class))).thenReturn(addedEmployee);
+        when(employeeService.addEmployee(any(EmployeeDto.class))).thenReturn(addedEmployee);
 
         mvc.perform(post("/employee").content("{}")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.id", Is.is(newId)));
 
-        verify(employeeService, times(1)).addEmployee(any(Employee.class));
+        verify(employeeService, times(1)).addEmployee(any(EmployeeDto.class));
 
     }
 
@@ -50,13 +50,44 @@ class EmployeeControllerTest extends ApiTest {
     public void genericErrorDuringPostShouldReturn500WithMessage() throws Exception {
 
         String message = "some error";
-        when(employeeService.addEmployee(any(Employee.class))).thenThrow(new RuntimeException(message));
+        when(employeeService.addEmployee(any(EmployeeDto.class))).thenThrow(new RuntimeException(message));
 
         mvc.perform(post("/employee").content("{}")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.error", Is.is(message)));
 
+    }
+
+
+    @Test
+    public void updateEmployeeState_GenericError() throws Exception {
+
+        String message = "some error";
+        String employeeId = "1111";
+        EmployeeState state = EmployeeState.APPROVED;
+        when(employeeService.updateState(eq(employeeId), eq(state))).thenThrow(new RuntimeException(message));
+
+        mvc.perform(post("/employee/{id}/updateStatus", employeeId)
+                .content("{\"state\" :  \"APPROVED\"}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.error", Is.is(message)));
+    }
+
+    @Test
+    public void activateEmployee_Success() throws Exception {
+
+        String employeeId = "1111";
+        EmployeeState state = EmployeeState.APPROVED;
+        when(employeeService.updateState(eq(employeeId), eq(state))).thenReturn(state);
+
+        mvc.perform(post("/employee/{id}/updateStatus", employeeId)
+                .content("{\"state\" :  \"APPROVED\"}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.id", Is.is(employeeId)))
+                .andExpect(jsonPath("$.state", Is.is(state.toString())));
     }
 
 }

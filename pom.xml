@@ -9,8 +9,9 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>api</module>
         <module>common</module>
+        <module>api</module>
+        <module>employee-service</module>
     </modules>
 
     <properties>
@@ -18,10 +19,16 @@
         <junit.jupiter.version>5.7.2</junit.jupiter.version>
         <java.version>11</java.version>
         <lombok.version>1.18.20</lombok.version>
+        <kafka.version>2.5.13.RELEASE</kafka.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>${kafka.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>

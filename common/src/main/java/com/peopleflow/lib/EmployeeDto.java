@@ -1,9 +1,9 @@
-package com.peopleflow.model.request;
+package com.peopleflow.lib;
 
 import lombok.Data;
 
 @Data
-public class Employee {
+public class EmployeeDto {
 
     String id;
 
@@ -14,4 +14,6 @@ public class Employee {
     String position;
 
     String jobDescription;
+
+    EmployeeState state;
 }
