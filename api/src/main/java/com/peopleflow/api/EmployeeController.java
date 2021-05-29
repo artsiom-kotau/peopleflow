@@ -18,7 +18,7 @@ public class EmployeeController {
 
     @PostMapping("/employee")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public EmployeeResponse addEmployee(EmployeeDto employee) {
+    public EmployeeResponse addEmployee(@RequestBody EmployeeDto employee) {
         EmployeeDto addedEmployee = employeeService.addEmployee(employee);
         return new EmployeeResponse(addedEmployee.getId());
     }

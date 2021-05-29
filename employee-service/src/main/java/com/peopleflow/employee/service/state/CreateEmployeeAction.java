@@ -4,10 +4,12 @@ import com.peopleflow.employee.service.employee.EmployeeService;
 import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.lib.EmployeeState;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.action.Action;
 
 @AllArgsConstructor
+@Slf4j
 public class CreateEmployeeAction implements Action<EmployeeState, StateEvent> {
 
     private EmployeeService employeeService;
@@ -16,6 +18,7 @@ public class CreateEmployeeAction implements Action<EmployeeState, StateEvent> {
     public void execute(StateContext<EmployeeState, StateEvent> stateContext) {
         EmployeeDto employee = StateMachineUtils.getEmployee(stateContext.getStateMachine());
         employee.setState(EmployeeState.ADDED);
+        log.info("Create employee '{}'", employee.getId());
         employeeService.create(employee);
     }
 }

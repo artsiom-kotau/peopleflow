@@ -3,11 +3,11 @@ package com.peopleflow.employee.service.state;
 import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.lib.EmployeeState;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.statemachine.StateMachine;
 
-import java.util.Objects;
-
 @AllArgsConstructor
+@Slf4j
 public class EmployeeStateMachineProcessor implements StateProcessor {
 
     private StateMachineStorage stateMachineStorage;
@@ -15,6 +15,7 @@ public class EmployeeStateMachineProcessor implements StateProcessor {
     @Override
     public void process(EmployeeDto employee) {
         String employeeId = employee.getId();
+        log.info("Start process employee '{}'", employeeId);
         StateMachine<EmployeeState, StateEvent> stateMachine = stateMachineStorage.getStateMachine(employeeId);
         StateMachineUtils.setEmployee(stateMachine, employee);
         stateMachine.sendEvent(EmployeeStateEventMapper.getEventForState(employee.getState()));

@@ -16,9 +16,12 @@ public class UpdateEmployeeStateAction implements Action<EmployeeState, StateEve
 
     @Override
     public void execute(StateContext<EmployeeState, StateEvent> stateContext) {
+        String employeeId = StateMachineUtils.getEmployeeId(stateContext.getStateMachine());
+        EmployeeState state = stateContext.getTarget().getId();
         EmployeeDto employee = new EmployeeDto();
-        employee.setState(stateContext.getSource().getId());
-        employee.setId(StateMachineUtils.getEmployeeId(stateContext.getStateMachine()));
+        employee.setState(state);
+        employee.setId(employeeId);
+        log.info("Update state of employee '{}' to '{}'", employeeId, state);
         employeeService.updateStatus(employee);
     }
 }
