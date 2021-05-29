@@ -30,9 +30,7 @@ class EmployeeServiceImplTest {
 
     @BeforeEach
     public  void init() {
-        employeeService = new EmployeeServiceImpl();
-        employeeService.setEmployeeMapper(EmployeeMapper.INSTANCE);
-        employeeService.setEmployeeRepository(employeeRepository);
+        employeeService = new EmployeeServiceImpl(employeeRepository, EmployeeMapper.INSTANCE);
     }
 
     @Test

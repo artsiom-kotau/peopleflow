@@ -5,6 +5,7 @@ import com.peopleflow.employee.entity.Employee;
 import com.peopleflow.exception.EmployeeServiceException;
 import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.lib.EmployeeState;
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +14,24 @@ import java.util.Optional;
 
 @Slf4j
 @Setter
+@AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
+
+    private EmployeeRepository employeeRepository;
 
     private EmployeeMapper employeeMapper;
 
-    private EmployeeRepository employeeRepository;
+    @Override
+    @Transactional(readOnly = true)
+    public EmployeeDto get(String id) {
+        try {
+            Optional<Employee> employee = employeeRepository.findById(id);
+            return employee.map(value -> employeeMapper.toDto(value)).orElse(null);
+        } catch (RuntimeException exc) {
+            log.error(exc.getMessage(), exc);
+            throw new EmployeeServiceException(exc);
+        }
+    }
 
     @Override
     @Transactional

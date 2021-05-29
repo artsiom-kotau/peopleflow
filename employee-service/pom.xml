@@ -14,6 +14,7 @@
     <properties>
         <liquibase.version>4.3.5</liquibase.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <spring.state.machine.version>2.3.0</spring.state.machine.version>
     </properties>
 
 
@@ -73,8 +74,6 @@
         </plugins>
     </build>
 
-
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -106,6 +105,11 @@
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.statemachine</groupId>
+            <artifactId>spring-statemachine-core</artifactId>
+            <version>${spring.state.machine.version}</version>
         </dependency>
         <dependency>
             <groupId>com.peopleflow</groupId>
