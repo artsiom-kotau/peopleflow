@@ -1,4 +1,4 @@
-package com.peopleflow.config;
+package com.peopleflow.employee.config;
 
 import com.peopleflow.employee.dao.EmployeeRepository;
 import com.peopleflow.employee.service.employee.EmployeeEventListener;
@@ -6,6 +6,11 @@ import com.peopleflow.employee.service.employee.EmployeeMapper;
 import com.peopleflow.employee.service.employee.EmployeeService;
 import com.peopleflow.employee.service.employee.EmployeeServiceImpl;
 import com.peopleflow.employee.service.state.*;
+import com.peopleflow.employee.service.state.action.ActionFactory;
+import com.peopleflow.employee.service.state.persist.EmployeeStateMachineStorage;
+import com.peopleflow.employee.service.state.persist.InMemoryStateMachinePersister;
+import com.peopleflow.employee.service.state.persist.StateMachineStorage;
+import com.peopleflow.employee.service.state.utils.StateMachineUtils;
 import com.peopleflow.lib.EmployeeState;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,8 +42,13 @@ public class ApplicationConfiguration {
     public RecordMessageConverter messageConverter() {  return new StringJsonMessageConverter();  }
 
     @Bean
-    public ActionFactory actionFactory(EmployeeService employeeService) {
-        return new ActionFactory(employeeService);
+    public StateMachineUtils stateMachineUtils() {
+        return new StateMachineUtils();
+    }
+
+    @Bean
+    public ActionFactory actionFactory(EmployeeService employeeService, StateMachineUtils stateMachineUtils) {
+        return new ActionFactory(employeeService, stateMachineUtils);
     }
 
     @Bean

@@ -1,5 +1,6 @@
-package com.peopleflow.employee.service.state;
+package com.peopleflow.employee.service.state.persist;
 
+import com.peopleflow.employee.service.state.StateEvent;
 import com.peopleflow.lib.EmployeeState;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.StateMachinePersist;

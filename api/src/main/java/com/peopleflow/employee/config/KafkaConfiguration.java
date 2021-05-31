@@ -1,4 +1,4 @@
-package com.peopleflow.config;
+package com.peopleflow.employee.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package com.peopleflow.config;
+package com.peopleflow.employee.config;
 
 import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.service.EmployeeService;

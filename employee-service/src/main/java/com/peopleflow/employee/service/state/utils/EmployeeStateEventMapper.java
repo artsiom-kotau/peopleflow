@@ -1,5 +1,6 @@
-package com.peopleflow.employee.service.state;
+package com.peopleflow.employee.service.state.utils;
 
+import com.peopleflow.employee.service.state.StateEvent;
 import com.peopleflow.lib.EmployeeState;
 
 import java.util.HashMap;
