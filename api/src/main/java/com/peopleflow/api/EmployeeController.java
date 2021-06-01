@@ -3,6 +3,7 @@ package com.peopleflow.api;
 import com.peopleflow.exception.EmployeeNotFoundException;
 import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.lib.EmployeeState;
+import com.peopleflow.model.request.AddEmployee;
 import com.peopleflow.model.response.EmployeeResponse;
 import com.peopleflow.model.response.EmployeeStateResponse;
 import com.peopleflow.service.EmployeeService;
@@ -18,13 +19,13 @@ public class EmployeeController {
 
     @PostMapping("/employee")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public EmployeeResponse addEmployee(@RequestBody EmployeeDto employee) {
+    public EmployeeResponse addEmployee(@RequestBody AddEmployee employee) {
         EmployeeDto dto = new EmployeeDto();
         dto.setAge(employee.getAge());
         dto.setName(employee.getName());
         dto.setJobDescription(employee.getJobDescription());
         dto.setPosition(employee.getPosition());
-        EmployeeDto addedEmployee = employeeService.addEmployee(employee);
+        EmployeeDto addedEmployee = employeeService.addEmployee(dto);
         return new EmployeeResponse(addedEmployee.getId());
     }
 
