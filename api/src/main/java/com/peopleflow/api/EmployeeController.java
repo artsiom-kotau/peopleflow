@@ -19,6 +19,11 @@ public class EmployeeController {
     @PostMapping("/employee")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public EmployeeResponse addEmployee(@RequestBody EmployeeDto employee) {
+        EmployeeDto dto = new EmployeeDto();
+        dto.setAge(employee.getAge());
+        dto.setName(employee.getName());
+        dto.setJobDescription(employee.getJobDescription());
+        dto.setPosition(employee.getPosition());
         EmployeeDto addedEmployee = employeeService.addEmployee(employee);
         return new EmployeeResponse(addedEmployee.getId());
     }
