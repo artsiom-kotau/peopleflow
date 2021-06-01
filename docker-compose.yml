@@ -22,15 +22,14 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
-  api-service:
-    image: com.peopleflow/api:1.0-SNAPSHOT
-    container_name: peopleflow-api
-    ports:
-      - "8081:8081"
-    depends_on:
-      - kafka
+  db:
+    image: docker.io/postgres:13-alpine
+    volumes:
+      - "postgres_data:/peopleflow"
     environment:
-      - "SPRING_PROFILES_ACTIVE=doc"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: peopleflow
 
   employee-service:
     image: com.peopleflow/employee-service:1.0-SNAPSHOT
@@ -39,6 +38,18 @@ services:
       - "8082:8082"
     depends_on:
       - kafka
+      - db
+    environment:
+      - "SPRING_PROFILES_ACTIVE=doc"
+
+  api-service:
+    image: com.peopleflow/api:1.0-SNAPSHOT
+    container_name: peopleflow-api
+    ports:
+      - "8081:8081"
+    depends_on:
+      - kafka
+      - employee-service
     environment:
       - "SPRING_PROFILES_ACTIVE=doc"
 
@@ -54,4 +65,6 @@ volumes:
   zookeeper_data:
     driver: local
   kafka_data:
+    driver: local
+  postgres_data:
     driver: local

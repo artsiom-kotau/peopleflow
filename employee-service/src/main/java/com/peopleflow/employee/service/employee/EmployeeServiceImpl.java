@@ -2,7 +2,7 @@ package com.peopleflow.employee.service.employee;
 
 import com.peopleflow.employee.dao.EmployeeRepository;
 import com.peopleflow.employee.entity.Employee;
-import com.peopleflow.employee.exception.EmployeeServiceException;
+import com.peopleflow.exception.EmployeeServiceException;
 import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.lib.EmployeeState;
 import lombok.AllArgsConstructor;

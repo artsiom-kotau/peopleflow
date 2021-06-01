@@ -7,5 +7,11 @@ public interface EmployeeService {
 
     EmployeeDto addEmployee(EmployeeDto employee);
 
-    EmployeeState updateState(String id, EmployeeState newState);
+    EmployeeState check(String userId);
+
+    EmployeeState approve(String userId);
+
+    EmployeeState activate(String userId);
+
+    EmployeeState status(String id);
 }

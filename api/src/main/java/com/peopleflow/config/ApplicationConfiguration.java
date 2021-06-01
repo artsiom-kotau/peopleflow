@@ -1,5 +1,6 @@
-package com.peopleflow.employee.config;
+package com.peopleflow.config;
 
+import com.peopleflow.dao.EmployeeRepository;
 import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.service.EmployeeService;
 import com.peopleflow.service.RequestService;
@@ -30,7 +31,9 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public EmployeeService employeeService(KafkaTemplate<String, EmployeeDto> employeeKafkaTemplate, RequestService requestService) {
-        return new KafkaEmployeeService(employeeKafkaTemplate, requestService, employeeTopic);
+    public EmployeeService employeeService(KafkaTemplate<String, EmployeeDto> employeeKafkaTemplate,
+                                           RequestService requestService,
+                                           EmployeeRepository employeeRepository) {
+        return new KafkaEmployeeService(employeeKafkaTemplate, requestService, employeeTopic, employeeRepository);
     }
 }

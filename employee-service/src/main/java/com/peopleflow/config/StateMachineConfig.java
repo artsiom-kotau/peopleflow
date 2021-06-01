@@ -1,4 +1,4 @@
-package com.peopleflow.employee.config;
+package com.peopleflow.config;
 
 import com.peopleflow.employee.service.state.action.ActionFactory;
 import com.peopleflow.employee.service.state.StateEvent;

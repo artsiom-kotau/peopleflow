@@ -22,8 +22,21 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
+  db:
+    image: postgres:13-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - "postgres_data:/peopleflow"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: peopleflow
+
 volumes:
   zookeeper_data:
     driver: local
   kafka_data:
+    driver: local
+  postgres_data:
     driver: local

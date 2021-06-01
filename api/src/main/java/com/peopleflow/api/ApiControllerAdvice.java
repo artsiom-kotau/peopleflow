@@ -1,6 +1,6 @@
 package com.peopleflow.api;
 
-import com.peopleflow.employee.exception.EmployeeNotFoundException;
+import com.peopleflow.exception.EmployeeNotFoundException;
 import com.peopleflow.model.response.ErrorResponse;
 import com.peopleflow.service.RequestService;
 import lombok.extern.slf4j.Slf4j;

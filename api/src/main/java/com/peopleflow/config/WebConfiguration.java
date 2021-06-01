@@ -1,4 +1,4 @@
-package com.peopleflow.employee.config;
+package com.peopleflow.config;
 
 import com.peopleflow.api.RequestInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;

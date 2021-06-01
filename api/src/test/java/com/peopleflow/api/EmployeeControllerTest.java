@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -61,31 +62,121 @@ class EmployeeControllerTest extends ApiTest {
 
 
     @Test
-    public void updateEmployeeState_GenericError() throws Exception {
+    public void toCheckEmployeeState_GenericError() throws Exception {
 
         String message = "some error";
         String employeeId = "1111";
-        EmployeeState state = EmployeeState.APPROVED;
-        when(employeeService.updateState(eq(employeeId), eq(state))).thenThrow(new RuntimeException(message));
+        when(employeeService.check(eq(employeeId))).thenThrow(new RuntimeException(message));
 
-        mvc.perform(post("/employee/{id}/updateStatus", employeeId)
-                .content("{\"state\" :  \"APPROVED\"}")
+        mvc.perform(post("/employee/{id}/check", employeeId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.error", Is.is(message)));
     }
 
     @Test
-    public void activateEmployee_Success() throws Exception {
+    public void toCheckEmployee_Success() throws Exception {
 
         String employeeId = "1111";
         EmployeeState state = EmployeeState.APPROVED;
-        when(employeeService.updateState(eq(employeeId), eq(state))).thenReturn(state);
+        when(employeeService.check(eq(employeeId))).thenReturn(state);
 
-        mvc.perform(post("/employee/{id}/updateStatus", employeeId)
-                .content("{\"state\" :  \"APPROVED\"}")
+        mvc.perform(post("/employee/{id}/check", employeeId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.id", Is.is(employeeId)))
+                .andExpect(jsonPath("$.state", Is.is(state.toString())));
+    }
+
+    @Test
+    public void toApproveEmployeeState_GenericError() throws Exception {
+
+        String message = "some error";
+        String employeeId = "1111";
+        when(employeeService.approve(eq(employeeId))).thenThrow(new RuntimeException(message));
+
+        mvc.perform(post("/employee/{id}/approve", employeeId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.error", Is.is(message)));
+    }
+
+    @Test
+    public void toApproveEmployee_Success() throws Exception {
+
+        String employeeId = "1111";
+        EmployeeState state = EmployeeState.APPROVED;
+        when(employeeService.approve(eq(employeeId))).thenReturn(state);
+
+        mvc.perform(post("/employee/{id}/approve", employeeId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.id", Is.is(employeeId)))
+                .andExpect(jsonPath("$.state", Is.is(state.toString())));
+    }
+
+    @Test
+    public void toActivateEmployeeState_GenericError() throws Exception {
+
+        String message = "some error";
+        String employeeId = "1111";
+        when(employeeService.activate(eq(employeeId))).thenThrow(new RuntimeException(message));
+
+        mvc.perform(post("/employee/{id}/activate", employeeId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.error", Is.is(message)));
+    }
+
+    @Test
+    public void toActivateEmployee_Success() throws Exception {
+
+        String employeeId = "1111";
+        EmployeeState state = EmployeeState.APPROVED;
+        when(employeeService.activate(eq(employeeId))).thenReturn(state);
+
+        mvc.perform(post("/employee/{id}/activate", employeeId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.id", Is.is(employeeId)))
+                .andExpect(jsonPath("$.state", Is.is(state.toString())));
+    }
+
+    @Test
+    public void getEmployeeState_GenericError() throws Exception {
+
+        String message = "some error";
+        String employeeId = "1111";
+        when(employeeService.status(eq(employeeId))).thenThrow(new RuntimeException(message));
+
+        mvc.perform(get("/employee/{id}/status", employeeId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.error", Is.is(message)));
+    }
+
+    @Test
+    public void getEmployeeState_NotFound() throws Exception {
+
+        String employeeId = "1111";
+        when(employeeService.status(eq(employeeId))).thenReturn(null);
+
+        mvc.perform(get("/employee/{id}/status", employeeId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.error", Is.is("User with id \'1111\' not found")));
+    }
+
+    @Test
+    public void getEmployee_Success() throws Exception {
+
+        String employeeId = "1111";
+        EmployeeState state = EmployeeState.APPROVED;
+        when(employeeService.status(eq(employeeId))).thenReturn(state);
+
+        mvc.perform(get("/employee/{id}/status", employeeId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", Is.is(employeeId)))
                 .andExpect(jsonPath("$.state", Is.is(state.toString())));
     }

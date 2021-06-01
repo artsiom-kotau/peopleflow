@@ -4,6 +4,15 @@ kafka:
   employee:
     topic: employee
 spring:
+  jpa:
+    hibernate:
+      ddl-auto:  none
+  datasource:
+    initialization-mode: always
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/peopleflow
+    username: postgres
+    password: postgres
   kafka:
     bootstrap-servers: ${kafka_bootstrap_servers:localhost:9092}
     producer:

@@ -1,4 +1,4 @@
-package com.peopleflow.employee.config;
+package com.peopleflow.config;
 
 import com.peopleflow.employee.dao.EmployeeRepository;
 import com.peopleflow.employee.service.employee.EmployeeEventListener;
