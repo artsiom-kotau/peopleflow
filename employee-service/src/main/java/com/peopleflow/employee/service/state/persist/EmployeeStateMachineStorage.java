@@ -21,7 +21,7 @@ public class EmployeeStateMachineStorage implements StateMachineStorage {
         try {
             return persister.restore(stateMachine, employeeId);
         } catch (Exception exc) {
-            throw  new RuntimeException(exc);
+            throw new RuntimeException(exc);
         }
 
     }
@@ -31,7 +31,7 @@ public class EmployeeStateMachineStorage implements StateMachineStorage {
         try {
             persister.persist(stateMachine, employeeId);
         } catch (Exception exc) {
-            throw  new RuntimeException(exc);
+            throw new RuntimeException(exc);
         }
     }
 }

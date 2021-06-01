@@ -41,7 +41,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             entity.setState(EmployeeState.ADDED);
             entity = employeeRepository.save(entity);
             return employeeMapper.toDto(entity);
-        }catch (Exception exc) {
+        } catch (Exception exc) {
             log.error(exc.getMessage(), exc);
             throw new EmployeeServiceException(exc);
         }
@@ -59,7 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             entity.setState(dto.getState());
             entity = employeeRepository.save(entity);
             return employeeMapper.toDto(entity);
-        } catch (EmployeeServiceException exc)  {
+        } catch (EmployeeServiceException exc) {
             throw exc;
         } catch (RuntimeException exc) {
             log.error(exc.getMessage(), exc);

@@ -4,7 +4,6 @@ import com.peopleflow.employee.service.state.StateEvent;
 import com.peopleflow.lib.EmployeeState;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.StateMachinePersist;
-import org.springframework.statemachine.persist.StateMachinePersister;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

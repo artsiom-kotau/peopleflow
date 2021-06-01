@@ -5,7 +5,6 @@ import com.peopleflow.employee.service.state.utils.EmployeeStateEventMapper;
 import com.peopleflow.employee.service.state.utils.StateMachineUtils;
 import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.lib.EmployeeState;
-import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.statemachine.StateMachine;

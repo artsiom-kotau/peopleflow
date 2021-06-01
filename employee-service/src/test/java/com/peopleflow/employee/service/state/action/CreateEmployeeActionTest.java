@@ -13,7 +13,6 @@ import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
@@ -44,7 +43,6 @@ class CreateEmployeeActionTest {
 
         verify(employeeService, times(1)).create(same(employeeDto));
     }
-
 
 
 }

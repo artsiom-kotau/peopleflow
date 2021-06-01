@@ -20,7 +20,7 @@ class EmployeeStateMachineProcessorTest {
     @MockBean
     private StateMachineStorage stateMachineStorage;
 
-    private EmployeeStateMachineProcessor  employeeStateMachineProcessor;
+    private EmployeeStateMachineProcessor employeeStateMachineProcessor;
 
     @BeforeEach
     public void init() {

@@ -1,7 +1,7 @@
 package com.peopleflow.config;
 
-import com.peopleflow.employee.service.state.action.ActionFactory;
 import com.peopleflow.employee.service.state.StateEvent;
+import com.peopleflow.employee.service.state.action.ActionFactory;
 import com.peopleflow.lib.EmployeeState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

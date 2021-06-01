@@ -1,6 +1,5 @@
 package com.peopleflow.model.response;
 
-import lombok.Data;
 import lombok.Getter;
 
 @Getter

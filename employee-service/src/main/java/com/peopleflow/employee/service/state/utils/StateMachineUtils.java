@@ -16,10 +16,10 @@ public class StateMachineUtils {
 
     public EmployeeDto getEmployee(StateMachine<EmployeeState, StateEvent> stateMachine) {
         Object employee = stateMachine.getExtendedState().getVariables().get(EMPLOYEE_OBJECT);
-        return (EmployeeDto)employee;
+        return (EmployeeDto) employee;
     }
 
-    public  String getEmployeeId(StateMachine<EmployeeState, StateEvent> stateMachine) {
+    public String getEmployeeId(StateMachine<EmployeeState, StateEvent> stateMachine) {
         EmployeeDto employee = (EmployeeDto) stateMachine.getExtendedState().getVariables().get(EMPLOYEE_OBJECT);
         return Objects.nonNull(employee) ? employee.getId() : null;
     }

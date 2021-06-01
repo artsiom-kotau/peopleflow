@@ -15,7 +15,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -29,7 +30,7 @@ class EmployeeServiceImplTest {
     private EmployeeServiceImpl employeeService;
 
     @BeforeEach
-    public  void init() {
+    public void init() {
         employeeService = new EmployeeServiceImpl(employeeRepository, EmployeeMapper.INSTANCE);
     }
 

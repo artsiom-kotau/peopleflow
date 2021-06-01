@@ -3,7 +3,6 @@ package com.peopleflow.service.impl;
 import com.peopleflow.dao.Employee;
 import com.peopleflow.dao.EmployeeRepository;
 import com.peopleflow.exception.AddEmployeeException;
-import com.peopleflow.exception.EmployeeNotFoundException;
 import com.peopleflow.exception.UpdateEmployeeStatusException;
 import com.peopleflow.lib.EmployeeDto;
 import com.peopleflow.lib.EmployeeState;

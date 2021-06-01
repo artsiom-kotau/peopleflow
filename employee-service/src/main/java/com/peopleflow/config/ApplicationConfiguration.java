@@ -5,7 +5,9 @@ import com.peopleflow.employee.service.employee.EmployeeEventListener;
 import com.peopleflow.employee.service.employee.EmployeeMapper;
 import com.peopleflow.employee.service.employee.EmployeeService;
 import com.peopleflow.employee.service.employee.EmployeeServiceImpl;
-import com.peopleflow.employee.service.state.*;
+import com.peopleflow.employee.service.state.EmployeeStateMachineProcessor;
+import com.peopleflow.employee.service.state.StateEvent;
+import com.peopleflow.employee.service.state.StateProcessor;
 import com.peopleflow.employee.service.state.action.ActionFactory;
 import com.peopleflow.employee.service.state.persist.EmployeeStateMachineStorage;
 import com.peopleflow.employee.service.state.persist.InMemoryStateMachinePersister;
@@ -39,7 +41,9 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public RecordMessageConverter messageConverter() {  return new StringJsonMessageConverter();  }
+    public RecordMessageConverter messageConverter() {
+        return new StringJsonMessageConverter();
+    }
 
     @Bean
     public StateMachineUtils stateMachineUtils() {
